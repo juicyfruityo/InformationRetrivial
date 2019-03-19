@@ -6,15 +6,20 @@ import os
 import re
 import random
 import time
-#from sklearn.cluster import <any cluster algorithm>
+from sklearn.cluster import KMeans
 import numpy
+import urlparse
+import urllib
 
 
 sekitei = None;
 
+def extract_features()
+
 
 def define_segments(QLINK_URLS, UNKNOWN_URLS, QUOTA):
-    print "define_segments is not implemented";
+
+    # print "define_segments is not implemented";
 
 
 #

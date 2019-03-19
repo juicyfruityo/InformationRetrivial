@@ -3,8 +3,7 @@
 import sys
 import re
 import random
-# from urllib.parse import urlparse
-import urlparse
+from urllib.parse import urlparse
 import urllib
 # you may add imports if needed (and if they are installed)
 
@@ -26,9 +25,9 @@ def get_random_url(file_path, N):
 def add_features(features, urls):
     for line in urls:
         line = line.strip('\n')
-        line = urlparse.urlparse(line)
+        line = urlparse(line)
         index = 0
-        for segment in urllib.unquote(line.path).split('/'):
+        for segment in urllib.parse.unquote(line.path).split('/'):
             if segment == '':
                 continue
 
@@ -42,19 +41,10 @@ def add_features(features, urls):
             if re.match(r'.+[.]\w+', segment):
                 ext = re.findall(r'.+[.](\w+)', segment)[0]
                 plus_one(features, 'segment_ext_{0}:{1}'.format(index, ext))
-            if re.match(r'[^\d]+\d+[^\d]', segment) and re.match(r'.+[.]\w+', segment):
-                ext = re.findall(r'.+[.](\w+)', segment)[0]
-                plus_one(features, 'segment_ext_substr[0-9]_{0}:{1}'.format(index, ext))
 
             index += 1
 
         plus_one(features, 'segments:{0}'.format(index))
-
-        parameters = urllib.unquote(line.params).split('&')
-        if parameters[0] != '':
-            for param in parameters:
-                plus_one(features, 'param:{0}'.format(param))
-                plus_one(features, 'param_name:{0}'.format(param.split('=')[0]))
 
 def extract_features(INPUT_FILE_1, INPUT_FILE_2, OUTPUT_FILE):
     N = 1000
