@@ -50,9 +50,12 @@ def add_features(features, urls):
 
         plus_one(features, 'segments:{0}'.format(index))
 
-        parameters = urllib.unquote(line.params).split('&')
+        parameters = urllib.unquote(line.query).split('&')
+        # print(urllib.unquote(line.query))
         if parameters[0] != '':
             for param in parameters:
+                if param == '':
+                    continue
                 plus_one(features, 'param:{0}'.format(param))
                 plus_one(features, 'param_name:{0}'.format(param.split('=')[0]))
 
@@ -76,3 +79,12 @@ def extract_features(INPUT_FILE_1, INPUT_FILE_2, OUTPUT_FILE):
             if features[i] > min_count:
                 out.write(str(i)+'\t'+str(features[i])+'\n')
     # print >> sys.stderr, "Not implemented"
+
+
+# urls = []
+# urls.append("http://example.com/code/param?a=b&c=d&")
+# features = dict()
+# add_features(features, urls)
+#
+# for i in features:
+#     print(str(i)+'\t'+str(features[i])+'\n')

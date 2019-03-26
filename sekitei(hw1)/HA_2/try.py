@@ -90,8 +90,24 @@ def define_segments(QLINK_URLS, UNKNOWN_URLS, QUOTA):
     clust.fit(X)
     label = clust.predict(X)
 
-    clf = LogisticRegression(solver='lbfgs', multi_class='multinomial').fit(X, label)
-    
+    # clf = LogisticRegression(solver='lbfgs', multi_class='multinomial').fit(X, label)
+
+    unique, counts = np.unique(label[:len(QLINK_URLS)], return_counts=True)
+    x_qlinks = dict(zip(unique, counts))
+    # for i in x_qlinks:
+    #     print(str(i)+'\t'+str(x_qlinks[i]))
+
+    # print("////")
+    # unique, counts = np.unique(label[len(QLINK_URLS):], return_counts=True)
+    # x_unklinks = dict(zip(unique, counts))
+    # for i in x_qlinks:
+    #     print(str(i)+'\t'+str(x_unkinks[i]))
+
+    quota_cluster = np.zeros(10).astype(int)
+    for i in x_qlinks:
+        quota_cluster[i] = int(float(x_qlinks[i]) / len(QLINK_URLS) * QUOTA)
+        # print(quota_cluster[i], " ", x_qlinks[i])
+
 
     # for i in all_features:
         # print(str(i)+'\t'+str(all_features[i]))
@@ -106,8 +122,8 @@ def fetch_url(url):
     #return sekitei.fetch_url(url);
     return True;
 
-f1 = './data/urls.wikipedia.examined'
-f2 = './data/urls.wikipedia.general'
+f1 = './data/urls.zr.examined'
+f2 = './data/urls.zr.general'
 
 def get_random_url(file_path, N):
     urls = []
